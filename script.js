@@ -89,15 +89,17 @@ function initTouch() {
 
     document.querySelectorAll('.panel').forEach(panel => {
         const label = panel.querySelector('.panel-label');
-        label.addEventListener('click', () => {
+        label.addEventListener('click', (e) => {
+            e.stopPropagation();
             const isOpen = panel.classList.contains('open');
             document.querySelectorAll('.panel').forEach(p => p.classList.remove('open'));
             if (!isOpen) panel.classList.add('open');
         });
     });
 
-    const first = document.querySelector('.panel');
-    if (first) first.classList.add('open');
+    // Open About by default on mobile
+    const about = document.getElementById('panel-about');
+    if (about) about.classList.add('open');
 }
 
 document.addEventListener('DOMContentLoaded', () => {

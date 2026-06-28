@@ -364,7 +364,7 @@ p {
     margin: 0;
 }
 
-/* ── Mobile fallback ─────────────────────── */
+/* ── Mobile ──────────────────────────────── */
 
 @media (hover: none), (max-width: 640px) {
     html, body { overflow: auto; }
@@ -375,16 +375,21 @@ p {
         min-height: 100vh;
     }
 
-    .panel {
+    /* Reset desktop flex/hover behaviour */
+    .panel,
+    .panels:has(.panel:hover) .panel:not(:hover) {
         flex: none !important;
+    }
+
+    .panel {
         min-width: unset;
-        min-height: 60px;
         border-right: none;
         border-bottom: 1px solid var(--border);
         border-top: none !important;
         border-left: 3px solid transparent;
+        transition: none;
         cursor: pointer;
-        transition: min-height 0.5s var(--ease);
+        overflow: visible;
     }
 
     #panel-about   { border-left-color: var(--accent-1); }
@@ -392,19 +397,51 @@ p {
     #panel-projects{ border-left-color: var(--accent-3); }
     #panel-cv      { border-left-color: var(--accent-4); }
 
+    /* Label becomes the tappable accordion header */
     .panel-label {
         position: relative;
         inset: unset;
-        height: 60px;
+        height: 56px;
+        padding: 0 1.25rem;
         opacity: 1 !important;
+        pointer-events: auto;  /* fix: desktop sets this to none */
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
     }
 
     .panel-label span {
         writing-mode: horizontal-tb;
         transform: none;
-        font-size: 0.8rem;
+        font-size: 0.82rem;
+        letter-spacing: 0.12em;
     }
 
+    /* Chevron indicator */
+    .panel-label::after {
+        content: '›';
+        font-size: 1.5rem;
+        color: var(--muted);
+        line-height: 1;
+        transform: rotate(90deg);
+        transition: transform 0.3s var(--ease), color 0.2s ease;
+        display: block;
+    }
+
+    .panel.open .panel-label::after {
+        transform: rotate(270deg);
+        color: var(--text);
+    }
+
+    /* Reset desktop hover-triggered opacity changes */
+    .panel:hover .panel-label { opacity: 1; }
+    .panel:hover .panel-content {
+        opacity: 0;
+        pointer-events: none;
+        transition-delay: 0s;
+    }
+
+    /* Content collapses/expands */
     .panel-content {
         position: relative;
         inset: unset;
@@ -412,12 +449,12 @@ p {
         max-height: 0;
         overflow: hidden;
         pointer-events: none;
-        transition: opacity 0.3s ease, max-height 0.5s var(--ease);
+        transition: opacity 0.3s ease, max-height 0.55s var(--ease);
     }
 
     .panel.open .panel-content {
         opacity: 1;
-        max-height: 2000px;
+        max-height: 9999px;
         pointer-events: auto;
     }
 
@@ -426,6 +463,10 @@ p {
     }
 
     .panel-inner {
-        padding: 1.5rem;
+        padding: 1.75rem 1.25rem 2rem;
+    }
+
+    h1 {
+        font-size: 2rem;
     }
 }
