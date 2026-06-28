@@ -1,0 +1,431 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --bg: #0c0c0f;
+    --panel-bg: #101013;
+    --panel-hover-bg: #14141a;
+    --border: rgba(255, 255, 255, 0.06);
+    --text: #e2e2ea;
+    --muted: #6b7280;
+    --accent-1: #6366f1;  /* about    — indigo  */
+    --accent-2: #10b981;  /* skills   — emerald */
+    --accent-3: #f59e0b;  /* projects — amber   */
+    --accent-4: #f43f5e;  /* cv       — rose    */
+    --font: 'Inter', system-ui, -apple-system, sans-serif;
+    --mono: 'JetBrains Mono', 'Fira Code', monospace;
+    --ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html, body {
+    height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+}
+
+/* ── Panels ─────────────────────────────── */
+
+.panels {
+    display: flex;
+    height: 100vh;
+}
+
+.panel {
+    flex: 1;
+    min-width: 68px;
+    position: relative;
+    overflow: hidden;
+    transition: flex 0.6s var(--ease), background 0.4s ease;
+    border-right: 1px solid var(--border);
+    background: var(--panel-bg);
+    cursor: pointer;
+}
+
+.panel:last-child {
+    border-right: none;
+}
+
+/* Top accent stripe */
+#panel-about   { border-top: 2px solid rgba(99,  102, 241, 0.4); }
+#panel-skills  { border-top: 2px solid rgba(16,  185, 129, 0.4); }
+#panel-projects{ border-top: 2px solid rgba(245, 158,  11, 0.4); }
+#panel-cv      { border-top: 2px solid rgba(244,  63,  94, 0.4); }
+
+/* Brighten accent stripe on the expanded panel */
+#panel-about.panel:hover   { border-top-color: var(--accent-1); background: var(--panel-hover-bg); }
+#panel-skills.panel:hover  { border-top-color: var(--accent-2); background: var(--panel-hover-bg); }
+#panel-projects.panel:hover{ border-top-color: var(--accent-3); background: var(--panel-hover-bg); }
+#panel-cv.panel:hover      { border-top-color: var(--accent-4); background: var(--panel-hover-bg); }
+
+/* When any panel is hovered — shrink only the non-hovered ones */
+.panels:has(.panel:hover) .panel:not(:hover) {
+    flex: 0.12;
+}
+
+/* Expand the hovered panel */
+.panel:hover {
+    flex: 5;
+}
+
+/* ── Panel Label (visible when collapsed) ── */
+
+.panel-label {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.panel-label span {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    user-select: none;
+    white-space: nowrap;
+}
+
+#panel-about    .panel-label span { color: var(--accent-1); }
+#panel-skills   .panel-label span { color: var(--accent-2); }
+#panel-projects .panel-label span { color: var(--accent-3); }
+#panel-cv       .panel-label span { color: var(--accent-4); }
+
+/* Fade label out when expanded */
+.panel:hover .panel-label {
+    opacity: 0;
+}
+
+/* ── Panel Content ───────────────────────── */
+
+.panel-content {
+    position: absolute;
+    inset: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    transition-delay: 0s;
+}
+
+.panel:hover .panel-content {
+    opacity: 1;
+    pointer-events: auto;
+    transition-delay: 0.18s;
+}
+
+.panel-inner {
+    padding: 3rem 2.5rem 3rem;
+    min-height: 100%;
+    max-width: 540px;
+}
+
+/* Scrollbar */
+.panel-content::-webkit-scrollbar        { width: 3px; }
+.panel-content::-webkit-scrollbar-track  { background: transparent; }
+.panel-content::-webkit-scrollbar-thumb  { background: rgba(255,255,255,0.08); border-radius: 2px; }
+
+/* ── Typography ──────────────────────────── */
+
+.overline {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.6rem;
+}
+
+#panel-about    .overline { color: color-mix(in srgb, var(--accent-1) 60%, var(--muted)); }
+#panel-skills   .overline { color: color-mix(in srgb, var(--accent-2) 60%, var(--muted)); }
+#panel-projects .overline { color: color-mix(in srgb, var(--accent-3) 60%, var(--muted)); }
+#panel-cv       .overline { color: color-mix(in srgb, var(--accent-4) 60%, var(--muted)); }
+
+h1 {
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 0.4rem;
+}
+
+.subtitle {
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-bottom: 2.5rem;
+}
+
+h2 {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: 0.85rem;
+}
+
+h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.4rem;
+}
+
+p {
+    font-size: 0.88rem;
+    line-height: 1.72;
+    color: #9898a8;
+}
+
+.section {
+    margin-bottom: 2rem;
+}
+
+/* ── About: item block ───────────────────── */
+
+.item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.item strong {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.item span {
+    font-size: 0.85rem;
+    color: var(--muted);
+}
+
+.item-desc {
+    margin-top: 0.4rem;
+    font-size: 0.82rem !important;
+    color: #6b7280 !important;
+    font-style: italic;
+}
+
+.badge {
+    display: inline-block;
+    font-size: 0.65rem !important;
+    font-family: var(--mono);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    background: rgba(99, 102, 241, 0.12);
+    color: var(--accent-1) !important;
+    border: 1px solid rgba(99, 102, 241, 0.25);
+    border-radius: 4px;
+    padding: 0.15rem 0.5rem;
+    margin-top: 0.3rem;
+    width: fit-content;
+}
+
+.muted-text {
+    font-size: 0.78rem !important;
+    color: #4b5563 !important;
+}
+
+/* ── Tags ────────────────────────────────── */
+
+.tag-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+}
+
+.tag {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    padding: 0.3rem 0.7rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 5px;
+    color: var(--text);
+    white-space: nowrap;
+}
+
+.tag.small {
+    font-size: 0.65rem;
+    padding: 0.2rem 0.5rem;
+}
+
+/* ── Project Cards ───────────────────────── */
+
+.card {
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 8px;
+    padding: 1.2rem;
+    margin-bottom: 0.85rem;
+}
+
+.card p {
+    margin-bottom: 0.75rem;
+    font-size: 0.83rem !important;
+}
+
+.card.placeholder {
+    opacity: 0.35;
+    border-style: dashed;
+}
+
+/* ── Links ───────────────────────────────── */
+
+.links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.links a {
+    display: inline-block;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text);
+    text-decoration: none;
+    padding: 0.45rem 1.1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+
+.links a:hover {
+    border-color: rgba(255, 255, 255, 0.25);
+    color: #fff;
+    background: rgba(255, 255, 255, 0.04);
+}
+
+/* ── CV Section ──────────────────────────── */
+
+.pitch {
+    border-left: 3px solid var(--accent-4);
+    padding: 0.6rem 1rem;
+    margin-bottom: 2rem;
+    background: rgba(244, 63, 94, 0.04);
+    border-radius: 0 6px 6px 0;
+}
+
+.pitch p {
+    font-size: 0.95rem !important;
+    color: #c8c8d8 !important;
+    line-height: 1.65;
+}
+
+.cv-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.cv-item {
+    display: flex;
+    gap: 0.9rem;
+    align-items: flex-start;
+}
+
+.cv-bullet {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent-4);
+    flex-shrink: 0;
+    margin-top: 0.55rem;
+    opacity: 0.7;
+}
+
+.cv-item strong {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.2rem;
+}
+
+.cv-item p {
+    font-size: 0.83rem !important;
+    margin: 0;
+}
+
+/* ── Mobile fallback ─────────────────────── */
+
+@media (hover: none), (max-width: 640px) {
+    html, body { overflow: auto; }
+
+    .panels {
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .panel {
+        flex: none !important;
+        min-width: unset;
+        min-height: 60px;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        border-top: none !important;
+        border-left: 3px solid transparent;
+        cursor: pointer;
+        transition: min-height 0.5s var(--ease);
+    }
+
+    #panel-about   { border-left-color: var(--accent-1); }
+    #panel-skills  { border-left-color: var(--accent-2); }
+    #panel-projects{ border-left-color: var(--accent-3); }
+    #panel-cv      { border-left-color: var(--accent-4); }
+
+    .panel-label {
+        position: relative;
+        inset: unset;
+        height: 60px;
+        opacity: 1 !important;
+    }
+
+    .panel-label span {
+        writing-mode: horizontal-tb;
+        transform: none;
+        font-size: 0.8rem;
+    }
+
+    .panel-content {
+        position: relative;
+        inset: unset;
+        opacity: 0;
+        max-height: 0;
+        overflow: hidden;
+        pointer-events: none;
+        transition: opacity 0.3s ease, max-height 0.5s var(--ease);
+    }
+
+    .panel.open .panel-content {
+        opacity: 1;
+        max-height: 2000px;
+        pointer-events: auto;
+    }
+
+    .panel.open .panel-label {
+        border-bottom: 1px solid var(--border);
+    }
+
+    .panel-inner {
+        padding: 1.5rem;
+    }
+}
