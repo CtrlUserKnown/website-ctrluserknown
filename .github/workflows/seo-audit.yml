@@ -1,0 +1,64 @@
+name: SEO Audit
+
+on:
+  schedule:
+    - cron: '0 10 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache Ollama models
+        id: cache-ollama
+        uses: actions/cache@v4
+        with:
+          path: ~/.ollama
+          key: ollama-gemma-2b-${{ runner.os }}
+
+      - name: Run Lighthouse
+        timeout-minutes: 3
+        run: |
+          mkdir -p results
+          npx lighthouse https://ctrluserknown.github.io/website-ctrluserknown/ \
+            --chrome-flags="--headless --no-sandbox --disable-gpu" \
+            --output=json \
+            --output-path=./results/lighthouse.json \
+            --only-categories=seo 2>&1 || echo "{}" > ./results/lighthouse.json
+
+      - name: Run audit & generate report
+        id: report
+        timeout-minutes: 5
+        run: |
+          if ! command -v ollama &> /dev/null; then
+            curl -fsSL https://ollama.com/install.sh | sh
+          fi
+          nohup ollama serve > /dev/null 2>&1 &
+          for i in $(seq 1 15); do
+            if curl -s http://localhost:11434/api/tags > /dev/null 2>&1; then
+              break
+            fi
+            sleep 1
+          done
+          if ! ollama list 2>/dev/null | grep -q gemma:2b; then
+            ollama pull gemma:2b
+          fi
+          python .github/scripts/audit.py
+          echo "needs_attention=$(cat results/verdict.txt)" >> $GITHUB_OUTPUT
+
+      - name: Create issue if issues found
+        if: steps.report.outputs.needs_attention == 'true'
+        run: |
+          gh issue create \
+            --title "SEO Audit Report — Issues Found" \
+            --body-file results/report.md \
+            --label seo \
+            --label automated
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
