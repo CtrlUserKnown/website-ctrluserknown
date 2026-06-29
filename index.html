@@ -23,6 +23,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="icon" id="favicon" href="img/favicon/DarkModeFavicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon/favicon-32.png">
+    <link rel="apple-touch-icon" href="img/favicon/apple-touch-icon.png">
+    <link rel="manifest" href="site.webmanifest">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)"  content="#13181B">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F0EEEB">
     <!-- Apply saved theme + matching favicon before first paint -->
     <script>(function(){var t=localStorage.getItem('theme'),dark=t?t==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;if(t)document.documentElement.setAttribute('data-theme',t);var f=document.getElementById('favicon');if(f)f.href='img/favicon/'+(dark?'Dark':'Light')+'ModeFavicon.svg';}());</script>
 </head>
@@ -35,16 +40,16 @@
                 <span>About</span>
             </div>
             <div class="panel-content">
+                <div class="about-logo" aria-hidden="true">
+                    <img class="logo-main" src="img/Logo/logo-dark.svg" width="47" height="44" alt="">
+                    <img class="logo-alt"  src="img/Logo/logo-dark-alt.svg" width="49" height="42" alt="">
+                </div>
                 <div class="panel-inner">
                     <div class="about-header">
                         <div class="about-header-text">
                             <p class="overline">Portfolio</p>
                             <h1>Christian<br>Alvarez</h1>
                             <p class="subtitle">CS Student &middot; Designer &middot; Artist</p>
-                        </div>
-                        <div class="about-logo" aria-hidden="true">
-                            <img class="logo-main" src="img/Logo/logo-dark.svg" width="47" height="44" alt="">
-                            <img class="logo-alt"  src="img/Logo/logo-dark-alt.svg" width="49" height="42" alt="">
                         </div>
                     </div>
 

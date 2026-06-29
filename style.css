@@ -404,25 +404,18 @@ p {
 /* ── About: header + logo ───────────────── */
 
 .about-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 1rem;
-}
-
-.about-header-text {
-    flex: 1;
-    min-width: 0;
+    margin-bottom: 0;
 }
 
 .about-logo {
-    position: relative;
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
     width: 52px;
     height: 52px;
-    flex-shrink: 0;
-    margin-top: 0.2rem;
     cursor: default;
     user-select: none;
+    z-index: 1;
 }
 
 .about-logo img {
@@ -836,6 +829,7 @@ p {
     .about-logo {
         width: 38px;
         height: 38px;
-        margin-top: 0.1rem;
+        top: 1.75rem;
+        right: 1.25rem;
     }
 }
