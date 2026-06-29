@@ -207,6 +207,10 @@
     --hint-close:   rgba(204, 213, 218, 0.35);
 }
 
+html {
+    font-size: 17px;
+}
+
 html, body {
     height: 100%;
     background: var(--bg);
@@ -729,6 +733,7 @@ p {
 /* ── Mobile ──────────────────────────────── */
 
 @media (hover: none), (max-width: 640px) {
+    html { font-size: 16.5px; }
     html, body { overflow: auto; }
 
     .panels {
