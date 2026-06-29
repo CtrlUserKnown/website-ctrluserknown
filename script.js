@@ -102,9 +102,42 @@ function initTouch() {
     if (about) about.classList.add('open');
 }
 
+// ── Nav Hint ──────────────────────────────────────────────────────────────────
+
+function initNavHint() {
+    if (sessionStorage.getItem('nav-hint-dismissed')) return;
+
+    const hint = document.getElementById('nav-hint');
+    const closeBtn = document.getElementById('nav-hint-close');
+    const text = document.getElementById('nav-hint-text');
+    if (!hint) return;
+
+    text.textContent = isTouchDevice()
+        ? 'Tap a section to expand'
+        : 'Hover a panel to explore';
+
+    let timer;
+
+    function dismiss() {
+        clearTimeout(timer);
+        hint.classList.add('hiding');
+        hint.addEventListener('transitionend', () => hint.remove(), { once: true });
+        sessionStorage.setItem('nav-hint-dismissed', '1');
+    }
+
+    closeBtn.addEventListener('click', dismiss);
+
+    // Show after a short delay so the page settles first
+    setTimeout(() => {
+        hint.classList.add('visible');
+        timer = setTimeout(dismiss, 5000);
+    }, 800);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     initTouch();
     loadGitHubProjects();
+    initNavHint();
 });
 
 window.addEventListener('resize', () => {

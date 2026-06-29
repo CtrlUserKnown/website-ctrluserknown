@@ -4,20 +4,117 @@
     padding: 0;
 }
 
+/* ── Design tokens — dark mode (default) ─── */
+
 :root {
-    --bg: #0c0c0f;
-    --panel-bg: #101013;
-    --panel-hover-bg: #14141a;
-    --border: rgba(255, 255, 255, 0.06);
-    --text: #e2e2ea;
-    --muted: #6b7280;
-    --accent-1: #6366f1;  /* about    — indigo  */
-    --accent-2: #10b981;  /* skills   — emerald */
-    --accent-3: #f59e0b;  /* projects — amber   */
-    --accent-4: #f43f5e;  /* cv       — rose    */
+    /* Raw palette */
+    --coral:   #FD8973;
+    --gold:    #FFBF65;
+    --navy:    #003A6C;
+    --polar:   #CCD5DA;
+    --light:   #F0EEEB;
+    --dark:    #13181B;
+    --darkest: #0F1C2D;
+
+    /* Gradients */
+    --grad-sunset: linear-gradient(135deg, #0F1C2D 0%, #003A6C 20%, #7B3255 42%, #FD8973 65%, #FFBF65 100%);
+    --grad-warm:   linear-gradient(135deg, #FD8973 0%, #FDAF6A 50%, #FFBF65 100%);
+    --grad-cool:   linear-gradient(135deg, #CCD5DA 0%, #6498BA 50%, #003A6C 100%);
+
+    /* Semantic surface */
+    --bg:             #13181B;
+    --panel-bg:       #13181B;
+    --panel-hover-bg: #0F1C2D;
+    --border:         rgba(204, 213, 218, 0.08);
+    --surface:        rgba(0, 58, 108, 0.15);
+    --surface-border: rgba(204, 213, 218, 0.08);
+
+    /* Semantic text */
+    --text:      #F0EEEB;
+    --muted:     #CCD5DA;
+    --text-body: rgba(240, 238, 235, 0.65);
+    --text-dim:  rgba(204, 213, 218, 0.5);
+
+    /* Panel accents */
+    --accent-1: #FD8973;   /* About    — coral */
+    --accent-2: #FFBF65;   /* Skills   — gold  */
+    --accent-3: #CCD5DA;   /* Projects — polar */
+    --accent-4: #FD8973;   /* CV       — coral */
+
+    /* Top stripe colors (dim, pre-hover) */
+    --stripe-1: rgba(253, 137, 115, 0.45);
+    --stripe-2: rgba(255, 191, 101, 0.45);
+    --stripe-3: rgba(204, 213, 218, 0.35);
+    --stripe-4: rgba(253, 137, 115, 0.45);
+
+    /* Overline tints */
+    --ol-1: rgba(253, 137, 115, 0.75);
+    --ol-2: rgba(255, 191, 101, 0.75);
+    --ol-3: rgba(204, 213, 218, 0.75);
+    --ol-4: rgba(253, 137, 115, 0.75);
+
+    /* Component tokens */
+    --tag-bg:      rgba(204, 213, 218, 0.05);
+    --tag-border:  rgba(204, 213, 218, 0.1);
+    --link-bg:     transparent;
+    --link-color:  #F0EEEB;
+    --link-border: rgba(204, 213, 218, 0.15);
+    --pitch-border: #FD8973;
+    --pitch-bg:     rgba(253, 137, 115, 0.05);
+    --pitch-text:   #F0EEEB;
+    --bullet:       #FD8973;
+    --hint-bg:      rgba(15, 28, 45, 0.92);
+    --hint-border:  rgba(204, 213, 218, 0.12);
+    --hint-close:   rgba(204, 213, 218, 0.35);
+
+    /* Type */
     --font: 'Inter', system-ui, -apple-system, sans-serif;
     --mono: 'JetBrains Mono', 'Fira Code', monospace;
     --ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Light mode ──────────────────────────── */
+
+[data-theme="light"] {
+    --bg:             #F0EEEB;
+    --panel-bg:       #F0EEEB;
+    --panel-hover-bg: #CCD5DA;
+    --border:         rgba(19, 24, 27, 0.1);
+    --surface:        #CCD5DA;
+    --surface-border: rgba(19, 24, 27, 0.1);
+
+    --text:      #13181B;
+    --muted:     rgba(0, 58, 108, 0.6);
+    --text-body: rgba(19, 24, 27, 0.7);
+    --text-dim:  rgba(0, 58, 108, 0.45);
+
+    --accent-1: #003A6C;
+    --accent-2: #FFBF65;
+    --accent-3: #FD8973;
+    --accent-4: #003A6C;
+
+    --stripe-1: rgba(0,  58, 108, 0.4);
+    --stripe-2: rgba(255, 191, 101, 0.6);
+    --stripe-3: rgba(253, 137, 115, 0.4);
+    --stripe-4: rgba(0,  58, 108, 0.4);
+
+    --ol-1: rgba(0,  58, 108, 0.65);
+    --ol-2: rgba(0,  58, 108, 0.65);
+    --ol-3: rgba(253, 137, 115, 0.7);
+    --ol-4: rgba(0,  58, 108, 0.65);
+
+    --tag-bg:      rgba(253, 137, 115, 0.08);
+    --tag-border:  rgba(253, 137, 115, 0.2);
+    --link-bg:     #003A6C;
+    --link-color:  #F0EEEB;
+    --link-border: #003A6C;
+    --pitch-border: #003A6C;
+    --pitch-bg:     rgba(0, 58, 108, 0.04);
+    --pitch-text:   #13181B;
+    --bullet:       #003A6C;
+    --hint-bg:      rgba(240, 238, 235, 0.95);
+    --hint-border:  rgba(0, 58, 108, 0.15);
+    --hint-close:   rgba(0, 58, 108, 0.35);
 }
 
 html, body {
@@ -51,29 +148,49 @@ html, body {
     border-right: none;
 }
 
-/* Top accent stripe */
-#panel-about   { border-top: 2px solid rgba(99,  102, 241, 0.4); }
-#panel-skills  { border-top: 2px solid rgba(16,  185, 129, 0.4); }
-#panel-projects{ border-top: 2px solid rgba(245, 158,  11, 0.4); }
-#panel-cv      { border-top: 2px solid rgba(244,  63,  94, 0.4); }
+/* ── Gradient 1: top accent stripe on hover ── */
+/* ::before = solid dim stripe (always visible)  */
+/* ::after  = sunset gradient (fades in on hover) */
 
-/* Brighten accent stripe on the expanded panel */
-#panel-about.panel:hover   { border-top-color: var(--accent-1); background: var(--panel-hover-bg); }
-#panel-skills.panel:hover  { border-top-color: var(--accent-2); background: var(--panel-hover-bg); }
-#panel-projects.panel:hover{ border-top-color: var(--accent-3); background: var(--panel-hover-bg); }
-#panel-cv.panel:hover      { border-top-color: var(--accent-4); background: var(--panel-hover-bg); }
+.panel::before,
+.panel::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    pointer-events: none;
+}
 
-/* When any panel is hovered — shrink only the non-hovered ones */
+.panel::before {
+    z-index: 3;
+    transition: opacity 0.4s ease;
+}
+
+.panel::after {
+    background: var(--grad-sunset);
+    opacity: 0;
+    z-index: 4;
+    transition: opacity 0.45s ease;
+}
+
+#panel-about::before   { background: var(--stripe-1); }
+#panel-skills::before  { background: var(--stripe-2); }
+#panel-projects::before{ background: var(--stripe-3); }
+#panel-cv::before      { background: var(--stripe-4); }
+
+.panel:hover::before { opacity: 0; }
+.panel:hover::after  { opacity: 1; }
+
+.panel:hover {
+    flex: 5;
+    background: var(--panel-hover-bg);
+}
+
 .panels:has(.panel:hover) .panel:not(:hover) {
     flex: 0.12;
 }
 
-/* Expand the hovered panel */
-.panel:hover {
-    flex: 5;
-}
-
-/* ── Panel Label (visible when collapsed) ── */
+/* ── Panel Label ─────────────────────────── */
 
 .panel-label {
     position: absolute;
@@ -104,7 +221,6 @@ html, body {
 #panel-projects .panel-label span { color: var(--accent-3); }
 #panel-cv       .panel-label span { color: var(--accent-4); }
 
-/* Fade label out when expanded */
 .panel:hover .panel-label {
     opacity: 0;
 }
@@ -134,10 +250,9 @@ html, body {
     max-width: 540px;
 }
 
-/* Scrollbar */
 .panel-content::-webkit-scrollbar        { width: 3px; }
 .panel-content::-webkit-scrollbar-track  { background: transparent; }
-.panel-content::-webkit-scrollbar-thumb  { background: rgba(255,255,255,0.08); border-radius: 2px; }
+.panel-content::-webkit-scrollbar-thumb  { background: rgba(204, 213, 218, 0.12); border-radius: 2px; }
 
 /* ── Typography ──────────────────────────── */
 
@@ -146,14 +261,13 @@ html, body {
     font-size: 0.7rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--muted);
     margin-bottom: 0.6rem;
 }
 
-#panel-about    .overline { color: color-mix(in srgb, var(--accent-1) 60%, var(--muted)); }
-#panel-skills   .overline { color: color-mix(in srgb, var(--accent-2) 60%, var(--muted)); }
-#panel-projects .overline { color: color-mix(in srgb, var(--accent-3) 60%, var(--muted)); }
-#panel-cv       .overline { color: color-mix(in srgb, var(--accent-4) 60%, var(--muted)); }
+#panel-about    .overline { color: var(--ol-1); }
+#panel-skills   .overline { color: var(--ol-2); }
+#panel-projects .overline { color: var(--ol-3); }
+#panel-cv       .overline { color: var(--ol-4); }
 
 h1 {
     font-size: clamp(2rem, 3.5vw, 3rem);
@@ -190,7 +304,7 @@ h3 {
 p {
     font-size: 0.88rem;
     line-height: 1.72;
-    color: #9898a8;
+    color: var(--text-body);
 }
 
 .section {
@@ -211,27 +325,27 @@ p {
     color: var(--text);
 }
 
-.item span {
+.item span:not(.badge) {
     font-size: 0.85rem;
     color: var(--muted);
 }
 
 .item-desc {
     margin-top: 0.4rem;
-    font-size: 0.82rem !important;
-    color: #6b7280 !important;
+    font-size: 0.82rem;
+    color: var(--text-dim);
     font-style: italic;
 }
 
 .badge {
     display: inline-block;
-    font-size: 0.65rem !important;
+    font-size: 0.65rem;
     font-family: var(--mono);
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    background: rgba(99, 102, 241, 0.12);
-    color: var(--accent-1) !important;
-    border: 1px solid rgba(99, 102, 241, 0.25);
+    background: rgba(255, 191, 101, 0.12);
+    color: #FFBF65;
+    border: 1px solid rgba(255, 191, 101, 0.3);
     border-radius: 4px;
     padding: 0.15rem 0.5rem;
     margin-top: 0.3rem;
@@ -239,8 +353,8 @@ p {
 }
 
 .muted-text {
-    font-size: 0.78rem !important;
-    color: #4b5563 !important;
+    font-size: 0.78rem;
+    color: var(--text-dim);
 }
 
 /* ── Tags ────────────────────────────────── */
@@ -255,8 +369,8 @@ p {
     font-family: var(--mono);
     font-size: 0.75rem;
     padding: 0.3rem 0.7rem;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--tag-bg);
+    border: 1px solid var(--tag-border);
     border-radius: 5px;
     color: var(--text);
     white-space: nowrap;
@@ -270,8 +384,8 @@ p {
 /* ── Project Cards ───────────────────────── */
 
 .card {
-    background: rgba(255, 255, 255, 0.025);
-    border: 1px solid rgba(255, 255, 255, 0.07);
+    background: var(--surface);
+    border: 1px solid var(--surface-border);
     border-radius: 8px;
     padding: 1.2rem;
     margin-bottom: 0.85rem;
@@ -279,7 +393,7 @@ p {
 
 .card p {
     margin-bottom: 0.75rem;
-    font-size: 0.83rem !important;
+    font-size: 0.83rem;
 }
 
 .card.placeholder {
@@ -287,7 +401,23 @@ p {
     border-style: dashed;
 }
 
-/* ── Links ───────────────────────────────── */
+/* Gradient 3: cool-depth shimmer on loading text */
+#projects-container > p.muted-text {
+    background: var(--grad-cool);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: shimmer 2s ease-in-out infinite alternate;
+}
+
+@keyframes shimmer {
+    from { background-position: 100% 0; }
+    to   { background-position: 0 0; }
+}
+
+/* ── Links / Buttons ─────────────────────── */
 
 .links {
     display: flex;
@@ -299,33 +429,35 @@ p {
     display: inline-block;
     font-size: 0.82rem;
     font-weight: 500;
-    color: var(--text);
+    color: var(--link-color);
     text-decoration: none;
     padding: 0.45rem 1.1rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--link-border);
     border-radius: 6px;
-    transition: border-color 0.2s, color 0.2s, background 0.2s;
+    background: var(--link-bg);
+    transition: border-color 0.2s ease, color 0.2s ease, background 0.25s ease;
 }
 
+/* Gradient 2: warm glow on CTA hover */
 .links a:hover {
-    border-color: rgba(255, 255, 255, 0.25);
-    color: #fff;
-    background: rgba(255, 255, 255, 0.04);
+    background: var(--grad-warm);
+    color: #13181B;
+    border-color: transparent;
 }
 
 /* ── CV Section ──────────────────────────── */
 
 .pitch {
-    border-left: 3px solid var(--accent-4);
+    border-left: 3px solid var(--pitch-border);
     padding: 0.6rem 1rem;
     margin-bottom: 2rem;
-    background: rgba(244, 63, 94, 0.04);
+    background: var(--pitch-bg);
     border-radius: 0 6px 6px 0;
 }
 
 .pitch p {
-    font-size: 0.95rem !important;
-    color: #c8c8d8 !important;
+    font-size: 0.95rem;
+    color: var(--pitch-text);
     line-height: 1.65;
 }
 
@@ -345,7 +477,7 @@ p {
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: var(--accent-4);
+    background: var(--bullet);
     flex-shrink: 0;
     margin-top: 0.55rem;
     opacity: 0.7;
@@ -360,8 +492,69 @@ p {
 }
 
 .cv-item p {
-    font-size: 0.83rem !important;
+    font-size: 0.83rem;
     margin: 0;
+}
+
+/* ── Nav Hint Popover ────────────────────── */
+
+.nav-hint {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.55rem 0.75rem 0.55rem 1rem;
+    background: var(--hint-bg);
+    border: 1px solid var(--hint-border);
+    border-radius: 999px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+    pointer-events: none;
+}
+
+.nav-hint.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.nav-hint.hiding {
+    opacity: 0;
+    transform: translateY(6px);
+}
+
+.nav-hint-text {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    white-space: nowrap;
+}
+
+.nav-hint-close {
+    background: none;
+    border: none;
+    color: var(--hint-close);
+    font-size: 0.75rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0.1rem 0.15rem;
+    border-radius: 50%;
+    transition: color 0.15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-hint-close:hover {
+    color: var(--text);
 }
 
 /* ── Mobile ──────────────────────────────── */
@@ -375,7 +568,6 @@ p {
         min-height: 100vh;
     }
 
-    /* Reset desktop flex/hover behaviour */
     .panel,
     .panels:has(.panel:hover) .panel:not(:hover) {
         flex: none !important;
@@ -385,11 +577,17 @@ p {
         min-width: unset;
         border-right: none;
         border-bottom: 1px solid var(--border);
-        border-top: none !important;
+        border-top: none;
         border-left: 3px solid transparent;
         transition: none;
         cursor: pointer;
         overflow: visible;
+    }
+
+    /* Hide desktop stripe pseudo-elements */
+    .panel::before,
+    .panel::after {
+        display: none;
     }
 
     #panel-about   { border-left-color: var(--accent-1); }
@@ -397,14 +595,13 @@ p {
     #panel-projects{ border-left-color: var(--accent-3); }
     #panel-cv      { border-left-color: var(--accent-4); }
 
-    /* Label becomes the tappable accordion header */
     .panel-label {
         position: relative;
         inset: unset;
         height: 56px;
         padding: 0 1.25rem;
         opacity: 1 !important;
-        pointer-events: auto;  /* fix: desktop sets this to none */
+        pointer-events: auto;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -417,7 +614,6 @@ p {
         letter-spacing: 0.12em;
     }
 
-    /* Chevron indicator */
     .panel-label::after {
         content: '›';
         font-size: 1.5rem;
@@ -433,7 +629,6 @@ p {
         color: var(--text);
     }
 
-    /* Reset desktop hover-triggered opacity changes */
     .panel:hover .panel-label { opacity: 1; }
     .panel:hover .panel-content {
         opacity: 0;
@@ -441,7 +636,6 @@ p {
         transition-delay: 0s;
     }
 
-    /* Content collapses/expands */
     .panel-content {
         position: relative;
         inset: unset;
