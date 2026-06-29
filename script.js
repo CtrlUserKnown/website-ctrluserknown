@@ -75,14 +75,14 @@ async function loadGitHubProjects() {
             });
 
             return `
-                <div class="card">
+                <a class="card" href="${repo.html_url}" target="_blank" rel="noopener noreferrer">
                     <h3>${title}</h3>
                     <p>${description}</p>
                     ${tags}
                     <span class="muted-text" style="font-size:0.72rem;display:block;margin-top:0.6rem">
                         Updated ${updated}
                     </span>
-                </div>`;
+                </a>`;
         }).join('');
 
     } catch {
@@ -152,6 +152,11 @@ function applyTheme(theme) {
     if (favicon) {
         favicon.href = `img/favicon/${theme === 'dark' ? 'Dark' : 'Light'}ModeFavicon.svg`;
     }
+
+    const logoMain = document.querySelector('.about-logo .logo-main');
+    const logoAlt  = document.querySelector('.about-logo .logo-alt');
+    if (logoMain) logoMain.src = `img/Logo/logo-${theme}.svg`;
+    if (logoAlt)  logoAlt.src  = `img/Logo/logo-${theme}-alt.svg`;
 }
 
 function initTheme() {

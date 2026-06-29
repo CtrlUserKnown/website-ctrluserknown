@@ -401,6 +401,48 @@ p {
     margin-bottom: 2rem;
 }
 
+/* ── About: header + logo ───────────────── */
+
+.about-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.about-header-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.about-logo {
+    position: relative;
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+    margin-top: 0.2rem;
+    cursor: default;
+    user-select: none;
+}
+
+.about-logo img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Main visible, alt hidden */
+.about-logo .logo-main { opacity: 1; }
+.about-logo .logo-alt  { opacity: 0; }
+
+/* Desktop hover: instant swap, no transition */
+@media (hover: hover) {
+    .about-logo:hover .logo-main { opacity: 0; }
+    .about-logo:hover .logo-alt  { opacity: 1; }
+}
+
 /* ── About: item block ───────────────────── */
 
 .item {
@@ -474,11 +516,20 @@ p {
 /* ── Project Cards ───────────────────────── */
 
 .card {
+    display: block;
     background: var(--surface);
     border: 1px solid var(--surface-border);
     border-radius: 8px;
     padding: 1.2rem;
     margin-bottom: 0.85rem;
+    color: inherit;
+    text-decoration: none;
+    transition: border-color 0.2s ease;
+    cursor: pointer;
+}
+
+.card:hover {
+    border-color: var(--muted);
 }
 
 .card p {
@@ -780,5 +831,11 @@ p {
 
     h1 {
         font-size: 2rem;
+    }
+
+    .about-logo {
+        width: 38px;
+        height: 38px;
+        margin-top: 0.1rem;
     }
 }
