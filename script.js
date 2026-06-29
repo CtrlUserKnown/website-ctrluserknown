@@ -1,3 +1,13 @@
+// ── Service Worker registration ───────────────────────────────────────────────
+// Registers sw.js, which fixes Safari/iOS stale-cache issues by using a
+// network-first fetch strategy that bypasses the browser's disk cache.
+
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(() => {});
+    });
+}
+
 // ── GitHub Projects ───────────────────────────────────────────────────────────
 
 const GITHUB_USERNAME = 'CtrlUserKnown';
@@ -80,6 +90,24 @@ async function loadGitHubProjects() {
     }
 }
 
+// ── Panel active state (desktop) ──────────────────────────────────────────────
+
+function initPanels() {
+    if (isTouchDevice()) return;
+
+    const panels = document.querySelectorAll('.panel');
+
+    // About is open by default so the page never looks blank on first load
+    document.getElementById('panel-about')?.classList.add('active');
+
+    panels.forEach(panel => {
+        panel.addEventListener('mouseenter', () => {
+            panels.forEach(p => p.classList.remove('active'));
+            panel.classList.add('active');
+        });
+    });
+}
+
 // ── Mobile / touch ────────────────────────────────────────────────────────────
 
 const isTouchDevice = () => window.matchMedia('(hover: none)').matches || window.innerWidth <= 640;
@@ -100,6 +128,48 @@ function initTouch() {
     // Open About by default on mobile
     const about = document.getElementById('panel-about');
     if (about) about.classList.add('open');
+}
+
+// ── Theme Toggle ──────────────────────────────────────────────────────────────
+
+const systemDark = window.matchMedia('(prefers-color-scheme: dark)');
+
+function getEffectiveTheme() {
+    return document.documentElement.getAttribute('data-theme')
+        || (systemDark.matches ? 'dark' : 'light');
+}
+
+function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+
+    const btn = document.getElementById('theme-toggle');
+    if (btn) {
+        btn.textContent = theme === 'dark' ? '☀' : '☽';
+        btn.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+    }
+
+    const favicon = document.getElementById('favicon');
+    if (favicon) {
+        favicon.href = `img/favicon/${theme === 'dark' ? 'Dark' : 'Light'}ModeFavicon.svg`;
+    }
+}
+
+function initTheme() {
+    const saved = localStorage.getItem('theme');
+    applyTheme(saved || (systemDark.matches ? 'dark' : 'light'));
+
+    // Follow system changes only while the user hasn't set a manual preference
+    systemDark.addEventListener('change', (e) => {
+        if (!localStorage.getItem('theme')) {
+            applyTheme(e.matches ? 'dark' : 'light');
+        }
+    });
+
+    document.getElementById('theme-toggle')?.addEventListener('click', () => {
+        const next = getEffectiveTheme() === 'dark' ? 'light' : 'dark';
+        localStorage.setItem('theme', next);
+        applyTheme(next);
+    });
 }
 
 // ── Nav Hint ──────────────────────────────────────────────────────────────────
@@ -135,13 +205,30 @@ function initNavHint() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    initTheme();
     initTouch();
+    initPanels();
     loadGitHubProjects();
     initNavHint();
 });
 
 window.addEventListener('resize', () => {
+    const panels = document.querySelectorAll('.panel');
     if (!isTouchDevice()) {
-        document.querySelectorAll('.panel').forEach(p => p.classList.remove('open'));
+        panels.forEach(p => p.classList.remove('open'));
+        // Restore a default active panel if none is set (e.g. after switching from mobile)
+        if (!document.querySelector('.panel.active')) {
+            document.getElementById('panel-about')?.classList.add('active');
+        }
+    } else {
+        panels.forEach(p => p.classList.remove('active'));
     }
+});
+
+// Safari keeps a frozen page snapshot in its Back-Forward Cache (bfcache).
+// When the user taps Back from an external link, Safari restores that snapshot
+// instead of fetching a fresh copy. Detecting event.persisted and reloading
+// forces Safari to request the current version from the network (or SW cache).
+window.addEventListener('pageshow', event => {
+    if (event.persisted) window.location.reload();
 });

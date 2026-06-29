@@ -73,9 +73,57 @@
     --ease: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ── Light mode ──────────────────────────── */
+/* ── System light preference ─────────────── */
+/* Overrides :root dark defaults when OS is in light mode.          */
+/* Specificity 0,1,0 — same as :root, but comes later so it wins.  */
 
-[data-theme="light"] {
+@media (prefers-color-scheme: light) {
+    :root {
+        --bg:             #F0EEEB;
+        --panel-bg:       #F0EEEB;
+        --panel-hover-bg: #CCD5DA;
+        --border:         rgba(19, 24, 27, 0.1);
+        --surface:        #CCD5DA;
+        --surface-border: rgba(19, 24, 27, 0.1);
+
+        --text:      #13181B;
+        --muted:     rgba(0, 58, 108, 0.6);
+        --text-body: rgba(19, 24, 27, 0.7);
+        --text-dim:  rgba(0, 58, 108, 0.45);
+
+        --accent-1: #003A6C;
+        --accent-2: #FFBF65;
+        --accent-3: #FD8973;
+        --accent-4: #003A6C;
+
+        --stripe-1: rgba(0,  58, 108, 0.4);
+        --stripe-2: rgba(255, 191, 101, 0.6);
+        --stripe-3: rgba(253, 137, 115, 0.4);
+        --stripe-4: rgba(0,  58, 108, 0.4);
+
+        --ol-1: rgba(0,  58, 108, 0.65);
+        --ol-2: rgba(0,  58, 108, 0.65);
+        --ol-3: rgba(253, 137, 115, 0.7);
+        --ol-4: rgba(0,  58, 108, 0.65);
+
+        --tag-bg:      rgba(253, 137, 115, 0.08);
+        --tag-border:  rgba(253, 137, 115, 0.2);
+        --link-bg:     #003A6C;
+        --link-color:  #F0EEEB;
+        --link-border: #003A6C;
+        --pitch-border: #003A6C;
+        --pitch-bg:     rgba(0, 58, 108, 0.04);
+        --pitch-text:   #13181B;
+        --bullet:       #003A6C;
+        --hint-bg:      rgba(240, 238, 235, 0.95);
+        --hint-border:  rgba(0, 58, 108, 0.15);
+        --hint-close:   rgba(0, 58, 108, 0.35);
+    }
+}
+
+/* ── Manual overrides (specificity 0,2,0 beats both above) ──────── */
+
+:root[data-theme="light"] {
     --bg:             #F0EEEB;
     --panel-bg:       #F0EEEB;
     --panel-hover-bg: #CCD5DA;
@@ -117,6 +165,48 @@
     --hint-close:   rgba(0, 58, 108, 0.35);
 }
 
+:root[data-theme="dark"] {
+    --bg:             #13181B;
+    --panel-bg:       #13181B;
+    --panel-hover-bg: #0F1C2D;
+    --border:         rgba(204, 213, 218, 0.08);
+    --surface:        rgba(0, 58, 108, 0.15);
+    --surface-border: rgba(204, 213, 218, 0.08);
+
+    --text:      #F0EEEB;
+    --muted:     #CCD5DA;
+    --text-body: rgba(240, 238, 235, 0.65);
+    --text-dim:  rgba(204, 213, 218, 0.5);
+
+    --accent-1: #FD8973;
+    --accent-2: #FFBF65;
+    --accent-3: #CCD5DA;
+    --accent-4: #FD8973;
+
+    --stripe-1: rgba(253, 137, 115, 0.45);
+    --stripe-2: rgba(255, 191, 101, 0.45);
+    --stripe-3: rgba(204, 213, 218, 0.35);
+    --stripe-4: rgba(253, 137, 115, 0.45);
+
+    --ol-1: rgba(253, 137, 115, 0.75);
+    --ol-2: rgba(255, 191, 101, 0.75);
+    --ol-3: rgba(204, 213, 218, 0.75);
+    --ol-4: rgba(253, 137, 115, 0.75);
+
+    --tag-bg:      rgba(204, 213, 218, 0.05);
+    --tag-border:  rgba(204, 213, 218, 0.1);
+    --link-bg:     transparent;
+    --link-color:  #F0EEEB;
+    --link-border: rgba(204, 213, 218, 0.15);
+    --pitch-border: #FD8973;
+    --pitch-bg:     rgba(253, 137, 115, 0.05);
+    --pitch-text:   #F0EEEB;
+    --bullet:       #FD8973;
+    --hint-bg:      rgba(15, 28, 45, 0.92);
+    --hint-border:  rgba(204, 213, 218, 0.12);
+    --hint-close:   rgba(204, 213, 218, 0.35);
+}
+
 html, body {
     height: 100%;
     background: var(--bg);
@@ -148,9 +238,9 @@ html, body {
     border-right: none;
 }
 
-/* ── Gradient 1: top accent stripe on hover ── */
-/* ::before = solid dim stripe (always visible)  */
-/* ::after  = sunset gradient (fades in on hover) */
+/* ── Gradient 1: top accent stripe on active ── */
+/* ::before = solid dim stripe (always visible)   */
+/* ::after  = sunset gradient (fades in on active) */
 
 .panel::before,
 .panel::after {
@@ -178,15 +268,15 @@ html, body {
 #panel-projects::before{ background: var(--stripe-3); }
 #panel-cv::before      { background: var(--stripe-4); }
 
-.panel:hover::before { opacity: 0; }
-.panel:hover::after  { opacity: 1; }
+.panel.active::before { opacity: 0; }
+.panel.active::after  { opacity: 1; }
 
-.panel:hover {
+.panel.active {
     flex: 5;
     background: var(--panel-hover-bg);
 }
 
-.panels:has(.panel:hover) .panel:not(:hover) {
+.panels:has(.panel.active) .panel:not(.active) {
     flex: 0.12;
 }
 
@@ -221,7 +311,7 @@ html, body {
 #panel-projects .panel-label span { color: var(--accent-3); }
 #panel-cv       .panel-label span { color: var(--accent-4); }
 
-.panel:hover .panel-label {
+.panel.active .panel-label {
     opacity: 0;
 }
 
@@ -238,7 +328,7 @@ html, body {
     transition-delay: 0s;
 }
 
-.panel:hover .panel-content {
+.panel.active .panel-content {
     opacity: 1;
     pointer-events: auto;
     transition-delay: 0.18s;
@@ -557,6 +647,41 @@ p {
     color: var(--text);
 }
 
+/* ── Theme Toggle ────────────────────────── */
+
+.theme-toggle {
+    position: fixed;
+    bottom: 1.5rem;
+    left: 1.5rem;
+    /* Respect iPhone home-indicator safe area */
+    bottom: max(1.5rem, calc(env(safe-area-inset-bottom, 0px) + 0.75rem));
+    left:   max(1.5rem, env(safe-area-inset-left, 0px));
+    z-index: 100;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--hint-bg);
+    border: 1px solid var(--hint-border);
+    color: var(--muted);
+    font-size: 1rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+    transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    /* Prevent panel hover from stealing focus on desktop */
+    pointer-events: auto;
+}
+
+.theme-toggle:hover {
+    color: var(--text);
+    border-color: var(--muted);
+}
+
 /* ── Mobile ──────────────────────────────── */
 
 @media (hover: none), (max-width: 640px) {
@@ -569,7 +694,7 @@ p {
     }
 
     .panel,
-    .panels:has(.panel:hover) .panel:not(:hover) {
+    .panels:has(.panel.active) .panel:not(.active) {
         flex: none !important;
     }
 
@@ -627,13 +752,6 @@ p {
     .panel.open .panel-label::after {
         transform: rotate(270deg);
         color: var(--text);
-    }
-
-    .panel:hover .panel-label { opacity: 1; }
-    .panel:hover .panel-content {
-        opacity: 0;
-        pointer-events: none;
-        transition-delay: 0s;
     }
 
     .panel-content {

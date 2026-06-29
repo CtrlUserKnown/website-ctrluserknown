@@ -22,6 +22,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" id="favicon" href="img/favicon/DarkModeFavicon.svg">
+    <!-- Apply saved theme + matching favicon before first paint -->
+    <script>(function(){var t=localStorage.getItem('theme'),dark=t?t==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;if(t)document.documentElement.setAttribute('data-theme',t);var f=document.getElementById('favicon');if(f)f.href='img/favicon/'+(dark?'Dark':'Light')+'ModeFavicon.svg';}());</script>
 </head>
 <body>
     <div class="panels">
@@ -252,6 +255,8 @@
         </div>
 
     </div>
+
+    <button class="theme-toggle" id="theme-toggle" aria-label="Switch to light mode">☀</button>
 
     <div class="nav-hint" id="nav-hint">
         <span class="nav-hint-text" id="nav-hint-text">Hover a panel to explore</span>
